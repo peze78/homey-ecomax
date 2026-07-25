@@ -1,0 +1,29 @@
+{
+  "id": "com.plum.ecomax.dev",
+  "version": "1.0.0",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "ecoMAX Controller"
+  },
+  "description": {
+    "en": "Homey integration for Plum ecoMAX controllers via ecoNET24."
+  },
+  "category": [
+    "climate"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Johan Hansson",
+    "email": "johan_hansson@telia.com"
+  }
+}

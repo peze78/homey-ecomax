@@ -1,0 +1,19 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Flue gas fan output",
+    "sv": "Rökgasfläkt effekt"
+  },
+  "units": {
+    "en": "%",
+    "sv": "%"
+  },
+  "min": 0,
+  "max": 100,
+  "step": 1,
+  "decimals": 0,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true
+}

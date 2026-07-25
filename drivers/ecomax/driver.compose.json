@@ -1,0 +1,131 @@
+{
+  "name": {
+    "en": "ecoMAX Controller"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "measure_temperature.boiler",
+    "measure_temperature.outside",
+    "measure_temperature.buffer_top",
+    "measure_temperature.buffer_middle",
+    "measure_temperature.buffer_bottom",
+    "measure_temperature.mixer1",
+    "measure_temperature.mixer1_set",
+    "pump_co",
+    "pump_cwu",
+    "pump_circulation",
+    "flue_gas_fan",
+    "flue_gas_fan_power"
+  ],
+  "capabilitiesOptions": {
+    "measure_temperature.boiler": {
+      "title": {
+        "en": "Boiler temperature",
+        "sv": "Panntemperatur"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.outside": {
+      "title": {
+        "en": "Outside temperature",
+        "sv": "Utomhustemperatur"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.buffer_top": {
+      "title": {
+        "en": "Upper buffer temperature",
+        "sv": "Buffert övre"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.buffer_middle": {
+      "title": {
+        "en": "Middle buffer temperature",
+        "sv": "Buffert mitten"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.buffer_bottom": {
+      "title": {
+        "en": "Lower buffer temperature",
+        "sv": "Buffert nedre"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.mixer1": {
+      "title": {
+        "en": "Heating circuit 1 supply temperature",
+        "sv": "Framledning krets 1"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.mixer1_set": {
+      "title": {
+        "en": "Heating circuit 1 target temperature",
+        "sv": "Börvärde krets 1"
+      },
+      "decimals": 1
+    },
+    "pump_co": {
+      "title": {
+        "en": "Heating circuit pump 1",
+        "sv": "Värmekretspump 1"
+      }
+    },
+    "pump_cwu": {
+      "title": {
+        "en": "Hot water pump",
+        "sv": "Varmvattenpump"
+      }
+    },
+    "pump_circulation": {
+      "title": {
+        "en": "Circulation pump",
+        "sv": "Cirkulationspump"
+      }
+    },
+    "flue_gas_fan": {
+      "title": {
+        "en": "Flue gas fan",
+        "sv": "Rökgasfläkt"
+      }
+    },
+    "flue_gas_fan_power": {
+      "title": {
+        "en": "Flue gas fan output",
+        "sv": "Rökgasfläkt effekt"
+      },
+      "decimals": 0
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "login"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "prev": "login",
+        "next": "add_devices"
+      },
+      "options": {
+        "singular": true
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

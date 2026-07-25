@@ -1,0 +1,229 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.plum.ecomax.dev",
+  "version": "1.0.0",
+  "compatibility": ">=12.4.0",
+  "sdk": 3,
+  "runtime": "nodejs",
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "ecoMAX Controller"
+  },
+  "description": {
+    "en": "Homey integration for Plum ecoMAX controllers via ecoNET24."
+  },
+  "category": [
+    "climate"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Johan Hansson",
+    "email": "johan_hansson@telia.com"
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "ecoMAX Controller"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_temperature.boiler",
+        "measure_temperature.outside",
+        "measure_temperature.buffer_top",
+        "measure_temperature.buffer_middle",
+        "measure_temperature.buffer_bottom",
+        "measure_temperature.mixer1",
+        "measure_temperature.mixer1_set",
+        "pump_co",
+        "pump_cwu",
+        "pump_circulation",
+        "flue_gas_fan",
+        "flue_gas_fan_power"
+      ],
+      "capabilitiesOptions": {
+        "measure_temperature.boiler": {
+          "title": {
+            "en": "Boiler temperature",
+            "sv": "Panntemperatur"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.outside": {
+          "title": {
+            "en": "Outside temperature",
+            "sv": "Utomhustemperatur"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.buffer_top": {
+          "title": {
+            "en": "Upper buffer temperature",
+            "sv": "Buffert övre"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.buffer_middle": {
+          "title": {
+            "en": "Middle buffer temperature",
+            "sv": "Buffert mitten"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.buffer_bottom": {
+          "title": {
+            "en": "Lower buffer temperature",
+            "sv": "Buffert nedre"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.mixer1": {
+          "title": {
+            "en": "Heating circuit 1 supply temperature",
+            "sv": "Framledning krets 1"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.mixer1_set": {
+          "title": {
+            "en": "Heating circuit 1 target temperature",
+            "sv": "Börvärde krets 1"
+          },
+          "decimals": 1
+        },
+        "pump_co": {
+          "title": {
+            "en": "Heating circuit pump 1",
+            "sv": "Värmekretspump 1"
+          }
+        },
+        "pump_cwu": {
+          "title": {
+            "en": "Hot water pump",
+            "sv": "Varmvattenpump"
+          }
+        },
+        "pump_circulation": {
+          "title": {
+            "en": "Circulation pump",
+            "sv": "Cirkulationspump"
+          }
+        },
+        "flue_gas_fan": {
+          "title": {
+            "en": "Flue gas fan",
+            "sv": "Rökgasfläkt"
+          }
+        },
+        "flue_gas_fan_power": {
+          "title": {
+            "en": "Flue gas fan output",
+            "sv": "Rökgasfläkt effekt"
+          },
+          "decimals": 0
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [],
+      "images": {
+        "small": "/drivers/ecomax/assets/images/small.png",
+        "large": "/drivers/ecomax/assets/images/large.png",
+        "xlarge": "/drivers/ecomax/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "login"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "login",
+            "next": "add_devices"
+          },
+          "options": {
+            "singular": true
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "ecomax"
+    }
+  ],
+  "capabilities": {
+    "flue_gas_fan": {
+      "type": "boolean",
+      "title": {
+        "en": "Flue gas fan",
+        "sv": "Rökgasfläkt"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
+    "flue_gas_fan_power": {
+      "type": "number",
+      "title": {
+        "en": "Flue gas fan output",
+        "sv": "Rökgasfläkt effekt"
+      },
+      "units": {
+        "en": "%",
+        "sv": "%"
+      },
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "decimals": 0,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
+    "pump_circulation": {
+      "type": "boolean",
+      "title": {
+        "en": "Circulation pump",
+        "sv": "Cirkulationspump"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
+    "pump_co": {
+      "type": "boolean",
+      "title": {
+        "en": "Heating circuit pump",
+        "sv": "Värmekretspump"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
+    "pump_cwu": {
+      "type": "boolean",
+      "title": {
+        "en": "Hot water pump",
+        "sv": "Varmvattenpump"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    }
+  }
+}
