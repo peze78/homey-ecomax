@@ -1,0 +1,11 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Heating circuit pump 2",
+    "sv": "Värmekretspump 2"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true
+}

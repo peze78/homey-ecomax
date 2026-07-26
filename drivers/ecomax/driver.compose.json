@@ -5,6 +5,7 @@
   "class": "sensor",
   "capabilities": [
     "measure_temperature.boiler",
+    "measure_temperature.flue_gas",
     "measure_temperature.outside",
     "measure_temperature.buffer_top",
     "measure_temperature.buffer_middle",
@@ -12,6 +13,9 @@
     "measure_temperature.mixer1",
     "measure_temperature.mixer1_set",
     "pump_co",
+    "measure_temperature.mixer2",
+    "measure_temperature.mixer2_set",
+    "pump_mixer_2",
     "pump_cwu",
     "pump_circulation",
     "flue_gas_fan",
@@ -22,6 +26,13 @@
       "title": {
         "en": "Boiler temperature",
         "sv": "Panntemperatur"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.flue_gas": {
+      "title": {
+        "en": "Flue gas temperature",
+        "sv": "Rökgastemperatur"
       },
       "decimals": 1
     },
@@ -67,10 +78,30 @@
       },
       "decimals": 1
     },
+    "measure_temperature.mixer2": {
+      "title": {
+        "en": "Heating circuit 2 supply temperature",
+        "sv": "Framledning krets 2"
+      },
+      "decimals": 1
+    },
+    "measure_temperature.mixer2_set": {
+      "title": {
+        "en": "Heating circuit 2 target temperature",
+        "sv": "Börvärde krets 2"
+      },
+      "decimals": 1
+    },
     "pump_co": {
       "title": {
         "en": "Heating circuit pump 1",
         "sv": "Värmekretspump 1"
+      }
+    },
+    "pump_mixer_2": {
+      "title": {
+        "en": "Heating circuit pump 2",
+        "sv": "Värmekretspump 2"
       }
     },
     "pump_cwu": {

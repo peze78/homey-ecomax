@@ -14,6 +14,12 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     this.updateInterval = null;
     this.isUpdating = false;
 
+    /*
+     * Sensor Explorer ska bara skriva sin inventering
+     * en gång per appstart.
+     */
+    this.hasLoggedSensorExplorer = false;
+
     await this.synchronizeCapabilities();
     await this.initializeConnection();
 
@@ -26,8 +32,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
   /**
    * Avgör om en sensor ska visas.
    *
-   * Om inställningen ännu saknas, exempelvis på en enhet
-   * som skapades innan inställningssidan infördes, används
+   * Om inställningen ännu saknas används
    * enabledByDefault från sensorbiblioteket.
    */
   isSensorEnabled(sensor, settings = this.getSettings()) {
@@ -42,7 +47,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
 
   /**
    * Ser till att enheten har exakt de capabilities
-   * som användaren har valt i enhetsinställningarna.
+   * som användaren valt i inställningarna.
    */
   async synchronizeCapabilities(settings = this.getSettings()) {
     for (const sensor of SENSORS) {
@@ -134,37 +139,15 @@ module.exports = class EcoMaxDevice extends Homey.Device {
         await this.updateSensor(sensor, values);
       }
 
-      this.log('--------------------------------');
+      /*
+       * Kör Sensor Explorer en gång per appstart.
+       */
+      if (!this.hasLoggedSensorExplorer) {
+        this.logUnusedLiveValues(values.current);
+        this.hasLoggedSensorExplorer = true;
+      }
 
-      this.log(
-        `Mode: ${
-          MAPPINGS.mode[values.current.mode]
-          ?? values.current.mode
-        }`
-      );
-
-      this.log(
-        `statusCO: ${
-          MAPPINGS.statusCO[values.current.statusCO]
-          ?? values.current.statusCO
-        }`
-      );
-
-      this.log(
-        `statusCWU: ${
-          MAPPINGS.statusCWU[values.current.statusCWU]
-          ?? values.current.statusCWU
-        }`
-      );
-
-      this.log(
-        `Thermostat: ${
-          MAPPINGS.thermostat[values.current.thermostat]
-          ?? values.current.thermostat
-        }`
-      );
-
-      this.log('--------------------------------');
+      this.logMappedStatuses(values.current);
 
       await this.setAvailable();
     } catch (error) {
@@ -176,6 +159,130 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     } finally {
       this.isUpdating = false;
     }
+  }
+
+  /**
+   * Skriver ut alla livevärden som ännu inte används
+   * av någon sensor i sensors.js.
+   */
+  logUnusedLiveValues(currentValues) {
+    if (!currentValues || typeof currentValues !== 'object') {
+      this.log('Sensor Explorer: inga livevärden hittades.');
+      return;
+    }
+
+    const usedCurrentKeys = new Set(
+      SENSORS
+        .filter((sensor) => sensor.source === 'current')
+        .map((sensor) => String(sensor.sourceKey))
+    );
+
+    const unusedValues = Object.entries(currentValues)
+      .filter(([key]) => !usedCurrentKeys.has(key))
+      .sort(([keyA], [keyB]) => keyA.localeCompare(keyB));
+
+    const informativeValues = [];
+    const emptyValues = [];
+
+    for (const [key, value] of unusedValues) {
+      /*
+       * Objekt och funktioner är inte användbara som enkla
+       * Homey-sensorvärden och hoppas därför över.
+       */
+      if (
+        typeof value === 'function'
+        || (typeof value === 'object' && value !== null)
+      ) {
+        continue;
+      }
+
+      /*
+       * Dela upp värdena så att intressanta värden hamnar
+       * högst upp och noll/false längst ner.
+       */
+      if (
+        value === null
+        || value === undefined
+        || value === ''
+        || value === 0
+        || value === '0'
+        || value === false
+      ) {
+        emptyValues.push([key, value]);
+      } else {
+        informativeValues.push([key, value]);
+      }
+    }
+
+    this.log('');
+    this.log('========================================');
+    this.log(' SENSOR EXPLORER – OANVÄNDA LIVEVÄRDEN');
+    this.log('========================================');
+
+    this.log(
+      `Hittade ${unusedValues.length} oanvända livevärden.`
+    );
+
+    if (informativeValues.length > 0) {
+      this.log('');
+      this.log('--- Värden med innehåll ---');
+
+      for (const [key, value] of informativeValues) {
+        this.log(`${key} = ${String(value)}`);
+      }
+    } else {
+      this.log('');
+      this.log('Inga oanvända värden med innehåll hittades.');
+    }
+
+    if (emptyValues.length > 0) {
+      this.log('');
+      this.log('--- Noll, false eller tomma värden ---');
+
+      for (const [key, value] of emptyValues) {
+        this.log(`${key} = ${String(value)}`);
+      }
+    }
+
+    this.log('========================================');
+    this.log('');
+  }
+
+  /**
+   * Skriver ut de statusfält vi håller på att kartlägga.
+   */
+  logMappedStatuses(currentValues) {
+    this.log('--------------------------------');
+
+    this.log(
+      `Mode: ${
+        MAPPINGS.mode[currentValues.mode]
+        ?? currentValues.mode
+      }`
+    );
+
+    this.log(
+      `statusCO: ${
+        MAPPINGS.statusCO[currentValues.statusCO]
+        ?? currentValues.statusCO
+      }`
+    );
+
+    this.log(
+      `statusCWU: ${
+        MAPPINGS.statusCWU[currentValues.statusCWU]
+        ?? currentValues.statusCWU
+      }`
+    );
+
+    this.log(
+      `Thermostat: ${
+        MAPPINGS.thermostat[currentValues.thermostat]
+        ?? currentValues.thermostat
+      }`
+    );
+
+    this.log('--------------------------------');
   }
 
   async getAllValuesWithRetry() {
@@ -328,7 +435,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     await this.synchronizeCapabilities(newSettings);
 
     /*
-     * Uppdatera direkt, så att en nyaktiverad sensor
+     * Uppdatera direkt så att en nyaktiverad sensor
      * inte behöver vänta på nästa minutintervall.
      */
     await this.updateValues();

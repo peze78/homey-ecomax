@@ -35,6 +35,7 @@
       "class": "sensor",
       "capabilities": [
         "measure_temperature.boiler",
+        "measure_temperature.flue_gas",
         "measure_temperature.outside",
         "measure_temperature.buffer_top",
         "measure_temperature.buffer_middle",
@@ -42,6 +43,9 @@
         "measure_temperature.mixer1",
         "measure_temperature.mixer1_set",
         "pump_co",
+        "measure_temperature.mixer2",
+        "measure_temperature.mixer2_set",
+        "pump_mixer_2",
         "pump_cwu",
         "pump_circulation",
         "flue_gas_fan",
@@ -52,6 +56,13 @@
           "title": {
             "en": "Boiler temperature",
             "sv": "Panntemperatur"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.flue_gas": {
+          "title": {
+            "en": "Flue gas temperature",
+            "sv": "Rökgastemperatur"
           },
           "decimals": 1
         },
@@ -97,10 +108,30 @@
           },
           "decimals": 1
         },
+        "measure_temperature.mixer2": {
+          "title": {
+            "en": "Heating circuit 2 supply temperature",
+            "sv": "Framledning krets 2"
+          },
+          "decimals": 1
+        },
+        "measure_temperature.mixer2_set": {
+          "title": {
+            "en": "Heating circuit 2 target temperature",
+            "sv": "Börvärde krets 2"
+          },
+          "decimals": 1
+        },
         "pump_co": {
           "title": {
             "en": "Heating circuit pump 1",
             "sv": "Värmekretspump 1"
+          }
+        },
+        "pump_mixer_2": {
+          "title": {
+            "en": "Heating circuit pump 2",
+            "sv": "Värmekretspump 2"
           }
         },
         "pump_cwu": {
@@ -173,6 +204,15 @@
               "label": {
                 "en": "Boiler temperature",
                 "sv": "Panntemperatur"
+              },
+              "value": true
+            },
+            {
+              "id": "show_flue_gas_temperature",
+              "type": "checkbox",
+              "label": {
+                "en": "Flue gas temperature",
+                "sv": "Rökgastemperatur"
               },
               "value": true
             },
@@ -280,6 +320,42 @@
         {
           "type": "group",
           "label": {
+            "en": "Heating circuit 2",
+            "sv": "Värmekrets 2"
+          },
+          "children": [
+            {
+              "id": "show_heating_circuit_2_temperature",
+              "type": "checkbox",
+              "label": {
+                "en": "Supply temperature circuit 2",
+                "sv": "Framledning krets 2"
+              },
+              "value": false
+            },
+            {
+              "id": "show_heating_circuit_2_target",
+              "type": "checkbox",
+              "label": {
+                "en": "Target temperature circuit 2",
+                "sv": "Börvärde krets 2"
+              },
+              "value": false
+            },
+            {
+              "id": "show_pump_mixer_2",
+              "type": "checkbox",
+              "label": {
+                "en": "Heating circuit pump 2",
+                "sv": "Värmekretspump 2"
+              },
+              "value": false
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
             "en": "Other pumps",
             "sv": "Övriga pumpar"
           },
@@ -365,6 +441,17 @@
       "title": {
         "en": "Hot water pump",
         "sv": "Varmvattenpump"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true
+    },
+    "pump_mixer_2": {
+      "type": "boolean",
+      "title": {
+        "en": "Heating circuit pump 2",
+        "sv": "Värmekretspump 2"
       },
       "getable": true,
       "setable": false,

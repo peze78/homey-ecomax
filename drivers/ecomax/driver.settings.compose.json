@@ -16,6 +16,15 @@
         "value": true
       },
       {
+        "id": "show_flue_gas_temperature",
+        "type": "checkbox",
+        "label": {
+          "en": "Flue gas temperature",
+          "sv": "Rökgastemperatur"
+        },
+        "value": true
+      },
+      {
         "id": "show_outside_temperature",
         "type": "checkbox",
         "label": {
@@ -113,6 +122,42 @@
           "sv": "Värmekretspump 1"
         },
         "value": true
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Heating circuit 2",
+      "sv": "Värmekrets 2"
+    },
+    "children": [
+      {
+        "id": "show_heating_circuit_2_temperature",
+        "type": "checkbox",
+        "label": {
+          "en": "Supply temperature circuit 2",
+          "sv": "Framledning krets 2"
+        },
+        "value": false
+      },
+      {
+        "id": "show_heating_circuit_2_target",
+        "type": "checkbox",
+        "label": {
+          "en": "Target temperature circuit 2",
+          "sv": "Börvärde krets 2"
+        },
+        "value": false
+      },
+      {
+        "id": "show_pump_mixer_2",
+        "type": "checkbox",
+        "label": {
+          "en": "Heating circuit pump 2",
+          "sv": "Värmekretspump 2"
+        },
+        "value": false
       }
     ]
   },
