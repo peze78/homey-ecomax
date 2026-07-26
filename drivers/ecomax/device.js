@@ -3,6 +3,7 @@
 const Homey = require('homey');
 const EcoNetClient = require('../../lib/econet');
 const SENSORS = require('../../lib/sensors');
+const MAPPINGS = require('../../lib/mappings');
 
 module.exports = class EcoMaxDevice extends Homey.Device {
 
@@ -106,10 +107,33 @@ module.exports = class EcoMaxDevice extends Homey.Device {
  * Logga driftstatus för att kartlägga ecoMAX.
  */
 this.log('--------------------------------');
-this.log(`Mode: ${values.current.mode}`);
-this.log(`statusCO: ${values.current.statusCO}`);
-this.log(`statusCWU: ${values.current.statusCWU}`);
-this.log(`Thermostat: ${values.current.thermostat}`);
+this.log(
+  `Mode: ${
+    MAPPINGS.mode[values.current.mode] ??
+    values.current.mode
+  }`
+);
+
+this.log(
+  `statusCO: ${
+    MAPPINGS.statusCO[values.current.statusCO] ??
+    values.current.statusCO
+  }`
+);
+
+this.log(
+  `statusCWU: ${
+    MAPPINGS.statusCWU[values.current.statusCWU] ??
+    values.current.statusCWU
+  }`
+);
+
+this.log(
+  `Thermostat: ${
+    MAPPINGS.thermostat[values.current.thermostat] ??
+    values.current.thermostat
+  }`
+);
 this.log('--------------------------------');
       await this.setAvailable();
     } catch (error) {
