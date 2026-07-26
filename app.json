@@ -158,7 +158,153 @@
           "template": "add_devices"
         }
       ],
-      "id": "ecomax"
+      "id": "ecomax",
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Boiler",
+            "sv": "Panna"
+          },
+          "children": [
+            {
+              "id": "show_boiler_temperature",
+              "type": "checkbox",
+              "label": {
+                "en": "Boiler temperature",
+                "sv": "Panntemperatur"
+              },
+              "value": true
+            },
+            {
+              "id": "show_outside_temperature",
+              "type": "checkbox",
+              "label": {
+                "en": "Outside temperature",
+                "sv": "Utomhustemperatur"
+              },
+              "value": true
+            },
+            {
+              "id": "show_flue_gas_fan",
+              "type": "checkbox",
+              "label": {
+                "en": "Flue gas fan",
+                "sv": "Rökgasfläkt"
+              },
+              "value": true
+            },
+            {
+              "id": "show_flue_gas_fan_power",
+              "type": "checkbox",
+              "label": {
+                "en": "Flue gas fan output",
+                "sv": "Rökgasfläkt effekt"
+              },
+              "value": true
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Buffer tank",
+            "sv": "Ackumulatortank"
+          },
+          "children": [
+            {
+              "id": "show_buffer_top",
+              "type": "checkbox",
+              "label": {
+                "en": "Upper buffer temperature",
+                "sv": "Buffert övre"
+              },
+              "value": true
+            },
+            {
+              "id": "show_buffer_middle",
+              "type": "checkbox",
+              "label": {
+                "en": "Middle buffer temperature",
+                "sv": "Buffert mitten"
+              },
+              "value": true
+            },
+            {
+              "id": "show_buffer_bottom",
+              "type": "checkbox",
+              "label": {
+                "en": "Lower buffer temperature",
+                "sv": "Buffert nedre"
+              },
+              "value": true
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Heating circuit 1",
+            "sv": "Värmekrets 1"
+          },
+          "children": [
+            {
+              "id": "show_heating_circuit_1_temperature",
+              "type": "checkbox",
+              "label": {
+                "en": "Supply temperature circuit 1",
+                "sv": "Framledning krets 1"
+              },
+              "value": true
+            },
+            {
+              "id": "show_heating_circuit_1_target",
+              "type": "checkbox",
+              "label": {
+                "en": "Target temperature circuit 1",
+                "sv": "Börvärde krets 1"
+              },
+              "value": true
+            },
+            {
+              "id": "show_pump_co",
+              "type": "checkbox",
+              "label": {
+                "en": "Heating circuit pump 1",
+                "sv": "Värmekretspump 1"
+              },
+              "value": true
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Other pumps",
+            "sv": "Övriga pumpar"
+          },
+          "children": [
+            {
+              "id": "show_pump_cwu",
+              "type": "checkbox",
+              "label": {
+                "en": "Hot water pump",
+                "sv": "Varmvattenpump"
+              },
+              "value": true
+            },
+            {
+              "id": "show_pump_circulation",
+              "type": "checkbox",
+              "label": {
+                "en": "Circulation pump",
+                "sv": "Cirkulationspump"
+              },
+              "value": true
+            }
+          ]
+        }
+      ]
     }
   ],
   "capabilities": {

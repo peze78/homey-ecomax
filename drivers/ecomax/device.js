@@ -14,7 +14,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     this.updateInterval = null;
     this.isUpdating = false;
 
-    await this.ensureCapabilities();
+    await this.synchronizeCapabilities();
     await this.initializeConnection();
 
     this.updateInterval = this.homey.setInterval(
@@ -24,24 +24,51 @@ module.exports = class EcoMaxDevice extends Homey.Device {
   }
 
   /**
-   * Lägger till de sensorer som är aktiverade som standard.
-   * Det fungerar även för enheter som redan är installerade.
+   * Avgör om en sensor ska visas.
+   *
+   * Om inställningen ännu saknas, exempelvis på en enhet
+   * som skapades innan inställningssidan infördes, används
+   * enabledByDefault från sensorbiblioteket.
    */
-  async ensureCapabilities() {
-    const enabledSensors = SENSORS.filter(
-      (sensor) => sensor.enabledByDefault
-    );
+  isSensorEnabled(sensor, settings = this.getSettings()) {
+    const settingValue = settings[sensor.settingId];
 
-    for (const sensor of enabledSensors) {
-      if (!this.hasCapability(sensor.capability)) {
+    if (typeof settingValue === 'boolean') {
+      return settingValue;
+    }
+
+    return sensor.enabledByDefault === true;
+  }
+
+  /**
+   * Ser till att enheten har exakt de capabilities
+   * som användaren har valt i enhetsinställningarna.
+   */
+  async synchronizeCapabilities(settings = this.getSettings()) {
+    for (const sensor of SENSORS) {
+      const shouldBeEnabled = this.isSensorEnabled(
+        sensor,
+        settings
+      );
+
+      const isEnabled = this.hasCapability(
+        sensor.capability
+      );
+
+      if (shouldBeEnabled && !isEnabled) {
         await this.addCapability(sensor.capability);
         this.log(`Added capability: ${sensor.capability}`);
+      }
+
+      if (!shouldBeEnabled && isEnabled) {
+        await this.removeCapability(sensor.capability);
+        this.log(`Removed capability: ${sensor.capability}`);
       }
     }
 
     /*
      * Tar bort den gamla generella temperatur-capabilityn
-     * från tidigare versioner av appen.
+     * från tidigare versioner.
      */
     if (this.hasCapability('measure_temperature')) {
       await this.removeCapability('measure_temperature');
@@ -70,9 +97,12 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     try {
       this.client = new EcoNetClient();
 
-      await this.client.login(this.username, this.password);
-      await this.updateValues();
+      await this.client.login(
+        this.username,
+        this.password
+      );
 
+      await this.updateValues();
       await this.setAvailable();
     } catch (error) {
       this.error(
@@ -103,38 +133,39 @@ module.exports = class EcoMaxDevice extends Homey.Device {
 
         await this.updateSensor(sensor, values);
       }
-	/*
- * Logga driftstatus för att kartlägga ecoMAX.
- */
-this.log('--------------------------------');
-this.log(
-  `Mode: ${
-    MAPPINGS.mode[values.current.mode] ??
-    values.current.mode
-  }`
-);
 
-this.log(
-  `statusCO: ${
-    MAPPINGS.statusCO[values.current.statusCO] ??
-    values.current.statusCO
-  }`
-);
+      this.log('--------------------------------');
 
-this.log(
-  `statusCWU: ${
-    MAPPINGS.statusCWU[values.current.statusCWU] ??
-    values.current.statusCWU
-  }`
-);
+      this.log(
+        `Mode: ${
+          MAPPINGS.mode[values.current.mode]
+          ?? values.current.mode
+        }`
+      );
 
-this.log(
-  `Thermostat: ${
-    MAPPINGS.thermostat[values.current.thermostat] ??
-    values.current.thermostat
-  }`
-);
-this.log('--------------------------------');
+      this.log(
+        `statusCO: ${
+          MAPPINGS.statusCO[values.current.statusCO]
+          ?? values.current.statusCO
+        }`
+      );
+
+      this.log(
+        `statusCWU: ${
+          MAPPINGS.statusCWU[values.current.statusCWU]
+          ?? values.current.statusCWU
+        }`
+      );
+
+      this.log(
+        `Thermostat: ${
+          MAPPINGS.thermostat[values.current.thermostat]
+          ?? values.current.thermostat
+        }`
+      );
+
+      this.log('--------------------------------');
+
       await this.setAvailable();
     } catch (error) {
       this.error('Could not update ecoMAX values:', error);
@@ -156,17 +187,22 @@ this.log('--------------------------------');
       );
 
       this.client = new EcoNetClient();
-      await this.client.login(this.username, this.password);
+
+      await this.client.login(
+        this.username,
+        this.password
+      );
 
       return this.getAllValues();
     }
   }
 
   async getAllValues() {
-    const [deviceParams, registerParams] = await Promise.all([
-      this.client.getDeviceParams(this.uid),
-      this.client.getDeviceRegParams(this.uid),
-    ]);
+    const [deviceParams, registerParams] =
+      await Promise.all([
+        this.client.getDeviceParams(this.uid),
+        this.client.getDeviceRegParams(this.uid),
+      ]);
 
     return {
       current: deviceParams.curr,
@@ -185,17 +221,26 @@ this.log('--------------------------------');
     const rawValue = sourceValues[sensor.sourceKey];
 
     if (sensor.type === 'temperature') {
-      await this.updateTemperatureSensor(sensor, rawValue);
+      await this.updateTemperatureSensor(
+        sensor,
+        rawValue
+      );
       return;
     }
 
     if (sensor.type === 'boolean') {
-      await this.updateBooleanSensor(sensor, rawValue);
+      await this.updateBooleanSensor(
+        sensor,
+        rawValue
+      );
       return;
     }
 
     if (sensor.type === 'number') {
-      await this.updateNumberSensor(sensor, rawValue);
+      await this.updateNumberSensor(
+        sensor,
+        rawValue
+      );
       return;
     }
 
@@ -214,7 +259,10 @@ this.log('--------------------------------');
       return;
     }
 
-    await this.setCapabilityValue(sensor.capability, value);
+    await this.setCapabilityValue(
+      sensor.capability,
+      value
+    );
 
     this.log(
       `${sensor.title} updated: ${value.toFixed(1)} °C`
@@ -222,9 +270,6 @@ this.log('--------------------------------');
   }
 
   async updateBooleanSensor(sensor, rawValue) {
-    /*
-     * Hanterar både riktiga boolean-värden och 0/1.
-     */
     let value;
 
     if (typeof rawValue === 'boolean') {
@@ -240,7 +285,10 @@ this.log('--------------------------------');
       return;
     }
 
-    await this.setCapabilityValue(sensor.capability, value);
+    await this.setCapabilityValue(
+      sensor.capability,
+      value
+    );
 
     this.log(
       `${sensor.title} updated: ${value ? 'På' : 'Av'}`
@@ -257,9 +305,35 @@ this.log('--------------------------------');
       return;
     }
 
-    await this.setCapabilityValue(sensor.capability, value);
+    await this.setCapabilityValue(
+      sensor.capability,
+      value
+    );
 
     this.log(`${sensor.title} updated: ${value}`);
+  }
+
+  /**
+   * Körs när användaren sparar enhetsinställningarna.
+   */
+  async onSettings({
+    oldSettings,
+    newSettings,
+    changedKeys,
+  }) {
+    this.log(
+      `Device settings changed: ${changedKeys.join(', ')}`
+    );
+
+    await this.synchronizeCapabilities(newSettings);
+
+    /*
+     * Uppdatera direkt, så att en nyaktiverad sensor
+     * inte behöver vänta på nästa minutintervall.
+     */
+    await this.updateValues();
+
+    return 'Sensorvalen har uppdaterats.';
   }
 
   async onAdded() {
