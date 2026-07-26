@@ -1,5 +1,6 @@
 {
-  "1.0.0": {
-    "en": "First version!"
+  "1.0.1": {
+    "en": "Changed the app name to Homey ecoMAX, added new app, driver and capability icons, and renamed Circulation pump to Loading pump.",
+    "sv": "Bytte appnamn till Homey ecoMAX, lade till nya app-, driver- och capability-ikoner samt döpte om Cirkulationspump till Laddpump."
   }
 }

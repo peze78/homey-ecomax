@@ -1,16 +1,16 @@
 {
   "id": "io.github.peze78.ecomax",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=12.4.0",
   "sdk": 3,
   "runtime": "nodejs",
   "platforms": [
     "local"
   ],
-  "brandColor": "#394A3A",
+  "brandColor": "#103A2B",
   "name": {
-    "en": "ecoMAX Controller",
-    "sv": "ecoMAX Controller"
+    "en": "Homey ecoMAX",
+    "sv": "Homey ecoMAX"
   },
   "description": {
     "en": "Connect ecoMAX heating controllers to Homey through ecoNET24.",

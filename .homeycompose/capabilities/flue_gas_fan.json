@@ -7,5 +7,6 @@
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": true
+  "insights": true,
+  "icon": "/assets/icons/flue-gas-fan.svg"
 }

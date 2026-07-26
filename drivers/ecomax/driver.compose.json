@@ -1,6 +1,7 @@
 {
   "name": {
-    "en": "ecoMAX Controller"
+    "en": "ecoMAX Controller",
+    "sv": "ecoMAX-styrning"
   },
   "class": "sensor",
   "capabilities": [
@@ -66,28 +67,28 @@
     },
     "measure_temperature.mixer1": {
       "title": {
-        "en": "Heating circuit 1 supply temperature",
+        "en": "Heating circuit 1 supply",
         "sv": "Framledning krets 1"
       },
       "decimals": 1
     },
     "measure_temperature.mixer1_set": {
       "title": {
-        "en": "Heating circuit 1 target temperature",
+        "en": "Heating circuit 1 target",
         "sv": "Börvärde krets 1"
       },
       "decimals": 1
     },
     "measure_temperature.mixer2": {
       "title": {
-        "en": "Heating circuit 2 supply temperature",
+        "en": "Heating circuit 2 supply",
         "sv": "Framledning krets 2"
       },
       "decimals": 1
     },
     "measure_temperature.mixer2_set": {
       "title": {
-        "en": "Heating circuit 2 target temperature",
+        "en": "Heating circuit 2 target",
         "sv": "Börvärde krets 2"
       },
       "decimals": 1
@@ -112,8 +113,8 @@
     },
     "pump_circulation": {
       "title": {
-        "en": "Circulation pump",
-        "sv": "Cirkulationspump"
+        "en": "Loading pump",
+        "sv": "Laddpump"
       }
     },
     "flue_gas_fan": {

@@ -1,0 +1,24 @@
+HOMEY ECOMAX v1.0.1 – INSTALLATION
+
+1. Stoppa eventuell körning med Ctrl+C.
+2. Packa upp ZIP-filen direkt i projektmappen:
+   C:\Users\johan\homey-apps\com.plum.ecomax.dev
+3. Välj att ersätta befintliga filer.
+4. Kör:
+   homey app validate --level publish
+   homey app run
+
+Kontrollera:
+- Appnamnet är Homey ecoMAX.
+- Appikonen visas som låga/termometer/trådlös signal.
+- Driverikonen visar en vedpanna med ackumulatortank.
+- Värmekretspump 1, Varmvattenpump, Laddpump och Rökgasfläkt har riktiga ikoner.
+- Cirkulationspump heter Laddpump.
+
+När allt fungerar:
+   git add .
+   git commit -m "Uppdaterade namn och ikoner i v1.0.1"
+   git push
+   homey app publish
+
+Välj att INTE bumpa versionen igen, eftersom paketet redan innehåller version 1.0.1.

@@ -1,11 +1,12 @@
 {
   "type": "boolean",
   "title": {
-    "en": "Circulation pump",
-    "sv": "Cirkulationspump"
+    "en": "Loading pump",
+    "sv": "Laddpump"
   },
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": true
+  "insights": true,
+  "icon": "/assets/icons/loading-pump.svg"
 }

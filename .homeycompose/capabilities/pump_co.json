@@ -1,11 +1,12 @@
 {
   "type": "boolean",
   "title": {
-    "en": "Heating circuit pump",
-    "sv": "Värmekretspump"
+    "en": "Heating circuit pump 1",
+    "sv": "Värmekretspump 1"
   },
   "getable": true,
   "setable": false,
   "uiComponent": "sensor",
-  "insights": true
+  "insights": true,
+  "icon": "/assets/icons/heating-pump.svg"
 }

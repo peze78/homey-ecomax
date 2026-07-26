@@ -181,8 +181,8 @@
         "id": "show_pump_circulation",
         "type": "checkbox",
         "label": {
-          "en": "Circulation pump",
-          "sv": "Cirkulationspump"
+          "en": "Loading pump",
+          "sv": "Laddpump"
         },
         "value": true
       }
