@@ -5,5 +5,8 @@
   },
   "1.1.0": {
     "en": "Added an Operating Mode sensor (Stopped, Startup and Running)."
+  },
+  "1.1.1": {
+    "en": "Bytte appnamn till ecoMAX Controller"
   }
 }
