@@ -7,6 +7,15 @@
     },
     "children": [
       {
+        "id": "show_operating_mode",
+        "type": "checkbox",
+        "label": {
+          "en": "Operating mode",
+          "sv": "Driftläge"
+        },
+        "value": true
+      },
+      {
         "id": "show_boiler_temperature",
         "type": "checkbox",
         "label": {
@@ -115,7 +124,7 @@
         "value": true
       },
       {
-        "id": "show_pump_co",
+        "id": "show_pump_mixer_1",
         "type": "checkbox",
         "label": {
           "en": "Heating circuit pump 1",
@@ -169,20 +178,20 @@
     },
     "children": [
       {
+        "id": "show_pump_co",
+        "type": "checkbox",
+        "label": {
+          "en": "Loading pump",
+          "sv": "Laddpump"
+        },
+        "value": true
+      },
+      {
         "id": "show_pump_cwu",
         "type": "checkbox",
         "label": {
           "en": "Hot water pump",
           "sv": "Varmvattenpump"
-        },
-        "value": true
-      },
-      {
-        "id": "show_pump_circulation",
-        "type": "checkbox",
-        "label": {
-          "en": "Loading pump",
-          "sv": "Laddpump"
         },
         "value": true
       }

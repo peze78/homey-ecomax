@@ -1,0 +1,49 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Operating mode",
+    "sv": "Driftläge"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "insights": true,
+  "values": [
+    {
+      "id": "stopped",
+      "title": {
+        "en": "Stopped",
+        "sv": "Stoppad"
+      }
+    },
+    {
+      "id": "startup",
+      "title": {
+        "en": "Startup",
+        "sv": "Uppstart"
+      }
+    },
+    {
+      "id": "running",
+      "title": {
+        "en": "Running",
+        "sv": "Drift"
+      }
+    },
+    {
+      "id": "shutdown",
+      "title": {
+        "en": "Burn-down",
+        "sv": "Nereldning"
+      }
+    },
+    {
+      "id": "unknown",
+      "title": {
+        "en": "Unknown",
+        "sv": "Okänt"
+      }
+    }
+  ],
+  "icon": "/assets/icons/operating-mode.svg"
+}

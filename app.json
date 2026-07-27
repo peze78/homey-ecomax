@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "io.github.peze78.ecomax",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "compatibility": ">=12.4.0",
   "sdk": 3,
   "runtime": "nodejs",
@@ -53,6 +53,7 @@
       },
       "class": "sensor",
       "capabilities": [
+        "operating_mode",
         "measure_temperature.boiler",
         "measure_temperature.flue_gas",
         "measure_temperature.outside",
@@ -61,16 +62,22 @@
         "measure_temperature.buffer_bottom",
         "measure_temperature.mixer1",
         "measure_temperature.mixer1_set",
-        "pump_co",
+        "pump_mixer_1",
         "measure_temperature.mixer2",
         "measure_temperature.mixer2_set",
         "pump_mixer_2",
+        "pump_co",
         "pump_cwu",
-        "pump_circulation",
         "flue_gas_fan",
         "flue_gas_fan_power"
       ],
       "capabilitiesOptions": {
+        "operating_mode": {
+          "title": {
+            "en": "Operating mode",
+            "sv": "Driftläge"
+          }
+        },
         "measure_temperature.boiler": {
           "title": {
             "en": "Boiler temperature",
@@ -127,6 +134,12 @@
           },
           "decimals": 1
         },
+        "pump_mixer_1": {
+          "title": {
+            "en": "Heating circuit pump 1",
+            "sv": "Värmekretspump 1"
+          }
+        },
         "measure_temperature.mixer2": {
           "title": {
             "en": "Heating circuit 2 supply",
@@ -141,28 +154,22 @@
           },
           "decimals": 1
         },
-        "pump_co": {
-          "title": {
-            "en": "Heating circuit pump 1",
-            "sv": "Värmekretspump 1"
-          }
-        },
         "pump_mixer_2": {
           "title": {
             "en": "Heating circuit pump 2",
             "sv": "Värmekretspump 2"
           }
         },
+        "pump_co": {
+          "title": {
+            "en": "Loading pump",
+            "sv": "Laddpump"
+          }
+        },
         "pump_cwu": {
           "title": {
             "en": "Hot water pump",
             "sv": "Varmvattenpump"
-          }
-        },
-        "pump_circulation": {
-          "title": {
-            "en": "Loading pump",
-            "sv": "Laddpump"
           }
         },
         "flue_gas_fan": {
@@ -217,6 +224,15 @@
             "sv": "Panna"
           },
           "children": [
+            {
+              "id": "show_operating_mode",
+              "type": "checkbox",
+              "label": {
+                "en": "Operating mode",
+                "sv": "Driftläge"
+              },
+              "value": true
+            },
             {
               "id": "show_boiler_temperature",
               "type": "checkbox",
@@ -326,7 +342,7 @@
               "value": true
             },
             {
-              "id": "show_pump_co",
+              "id": "show_pump_mixer_1",
               "type": "checkbox",
               "label": {
                 "en": "Heating circuit pump 1",
@@ -380,20 +396,20 @@
           },
           "children": [
             {
+              "id": "show_pump_co",
+              "type": "checkbox",
+              "label": {
+                "en": "Loading pump",
+                "sv": "Laddpump"
+              },
+              "value": true
+            },
+            {
               "id": "show_pump_cwu",
               "type": "checkbox",
               "label": {
                 "en": "Hot water pump",
                 "sv": "Varmvattenpump"
-              },
-              "value": true
-            },
-            {
-              "id": "show_pump_circulation",
-              "type": "checkbox",
-              "label": {
-                "en": "Loading pump",
-                "sv": "Laddpump"
               },
               "value": true
             }
@@ -435,6 +451,55 @@
       "insights": true,
       "icon": "/assets/icons/fan-power.svg"
     },
+    "operating_mode": {
+      "type": "enum",
+      "title": {
+        "en": "Operating mode",
+        "sv": "Driftläge"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "values": [
+        {
+          "id": "stopped",
+          "title": {
+            "en": "Stopped",
+            "sv": "Stoppad"
+          }
+        },
+        {
+          "id": "startup",
+          "title": {
+            "en": "Startup",
+            "sv": "Uppstart"
+          }
+        },
+        {
+          "id": "running",
+          "title": {
+            "en": "Running",
+            "sv": "Drift"
+          }
+        },
+        {
+          "id": "shutdown",
+          "title": {
+            "en": "Burn-down",
+            "sv": "Nereldning"
+          }
+        },
+        {
+          "id": "unknown",
+          "title": {
+            "en": "Unknown",
+            "sv": "Okänt"
+          }
+        }
+      ],
+      "icon": "/assets/icons/operating-mode.svg"
+    },
     "pump_circulation": {
       "type": "boolean",
       "title": {
@@ -450,14 +515,14 @@
     "pump_co": {
       "type": "boolean",
       "title": {
-        "en": "Heating circuit pump 1",
-        "sv": "Värmekretspump 1"
+        "en": "Loading pump",
+        "sv": "Laddpump"
       },
       "getable": true,
       "setable": false,
       "uiComponent": "sensor",
       "insights": true,
-      "icon": "/assets/icons/heating-pump.svg"
+      "icon": "/assets/icons/loading-pump.svg"
     },
     "pump_cwu": {
       "type": "boolean",
@@ -470,6 +535,18 @@
       "uiComponent": "sensor",
       "insights": true,
       "icon": "/assets/icons/hot-water-pump.svg"
+    },
+    "pump_mixer_1": {
+      "type": "boolean",
+      "title": {
+        "en": "Heating circuit pump 1",
+        "sv": "Värmekretspump 1"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "insights": true,
+      "icon": "/assets/icons/heating-pump.svg"
     },
     "pump_mixer_2": {
       "type": "boolean",

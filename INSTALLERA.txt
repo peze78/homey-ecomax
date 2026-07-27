@@ -1,24 +1,42 @@
-HOMEY ECOMAX v1.0.1 – INSTALLATION
+HOMEY ECOMAX v1.0.4 – DRIFTLÄGE
 
-1. Stoppa eventuell körning med Ctrl+C.
+Tillagt:
+- Ny sensor: Driftläge
+- mode 1 = Stoppad
+- mode 2 = Uppstart
+- mode 3 = Drift
+- Andra värden visas som Okänt.
+- Det okända råvärdet skrivs i loggen, exempel:
+  Driftläge updated: Okänt driftläge (4)
+
+Nereldning finns med som ett möjligt enum-värde, men kopplas inte till
+någon siffra förrän vi har sett det verkliga mode-värdet.
+
+Installation:
+1. Stoppa eventuell appkörning med Ctrl+C.
 2. Packa upp ZIP-filen direkt i projektmappen:
    C:\Users\johan\homey-apps\com.plum.ecomax.dev
 3. Välj att ersätta befintliga filer.
 4. Kör:
+   node --check lib\sensors.js
+   node --check lib\mappings.js
+   node --check drivers\ecomax\device.js
    homey app validate --level publish
    homey app run
 
-Kontrollera:
-- Appnamnet är Homey ecoMAX.
-- Appikonen visas som låga/termometer/trådlös signal.
-- Driverikonen visar en vedpanna med ackumulatortank.
-- Värmekretspump 1, Varmvattenpump, Laddpump och Rökgasfläkt har riktiga ikoner.
-- Cirkulationspump heter Laddpump.
+Förväntat just nu när pannan går:
+- Driftläge updated: Drift
+
+När pannan senare går över till Nereldning:
+- Homey visar Okänt.
+- Kopiera loggraderna som visar:
+  Driftläge updated: Okänt driftläge (X)
+Då kan X mappas till Nereldning i nästa version.
 
 När allt fungerar:
    git add .
-   git commit -m "Uppdaterade namn och ikoner i v1.0.1"
+   git commit -m "Lade till driftläge i Homey ecoMAX"
    git push
    homey app publish
 
-Välj att INTE bumpa versionen igen, eftersom paketet redan innehåller version 1.0.1.
+Välj Nej när Homey frågar om versionsnumret, eftersom paketet redan är 1.0.4.

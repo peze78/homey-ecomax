@@ -13,11 +13,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     this.client = null;
     this.updateInterval = null;
     this.isUpdating = false;
-
-    /*
-     * Sensor Explorer ska bara skriva sin inventering
-     * en gång per appstart.
-     */
     this.hasLoggedSensorExplorer = false;
 
     await this.synchronizeCapabilities();
@@ -29,12 +24,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     );
   }
 
-  /**
-   * Avgör om en sensor ska visas.
-   *
-   * Om inställningen ännu saknas används
-   * enabledByDefault från sensorbiblioteket.
-   */
   isSensorEnabled(sensor, settings = this.getSettings()) {
     const settingValue = settings[sensor.settingId];
 
@@ -45,10 +34,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     return sensor.enabledByDefault === true;
   }
 
-  /**
-   * Ser till att enheten har exakt de capabilities
-   * som användaren valt i inställningarna.
-   */
   async synchronizeCapabilities(settings = this.getSettings()) {
     for (const sensor of SENSORS) {
       const shouldBeEnabled = this.isSensorEnabled(
@@ -71,13 +56,16 @@ module.exports = class EcoMaxDevice extends Homey.Device {
       }
     }
 
-    /*
-     * Tar bort den gamla generella temperatur-capabilityn
-     * från tidigare versioner.
-     */
-    if (this.hasCapability('measure_temperature')) {
-      await this.removeCapability('measure_temperature');
-      this.log('Removed old capability: measure_temperature');
+    const legacyCapabilities = [
+      'measure_temperature',
+      'pump_circulation',
+    ];
+
+    for (const capability of legacyCapabilities) {
+      if (this.hasCapability(capability)) {
+        await this.removeCapability(capability);
+        this.log(`Removed old capability: ${capability}`);
+      }
     }
   }
 
@@ -139,9 +127,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
         await this.updateSensor(sensor, values);
       }
 
-      /*
-       * Kör Sensor Explorer en gång per appstart.
-       */
       if (!this.hasLoggedSensorExplorer) {
         this.logUnusedLiveValues(values.current);
         this.hasLoggedSensorExplorer = true;
@@ -161,10 +146,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     }
   }
 
-  /**
-   * Skriver ut alla livevärden som ännu inte används
-   * av någon sensor i sensors.js.
-   */
   logUnusedLiveValues(currentValues) {
     if (!currentValues || typeof currentValues !== 'object') {
       this.log('Sensor Explorer: inga livevärden hittades.');
@@ -185,10 +166,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     const emptyValues = [];
 
     for (const [key, value] of unusedValues) {
-      /*
-       * Objekt och funktioner är inte användbara som enkla
-       * Homey-sensorvärden och hoppas därför över.
-       */
       if (
         typeof value === 'function'
         || (typeof value === 'object' && value !== null)
@@ -196,10 +173,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
         continue;
       }
 
-      /*
-       * Dela upp värdena så att intressanta värden hamnar
-       * högst upp och noll/false längst ner.
-       */
       if (
         value === null
         || value === undefined
@@ -218,7 +191,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     this.log('========================================');
     this.log(' SENSOR EXPLORER – OANVÄNDA LIVEVÄRDEN');
     this.log('========================================');
-
     this.log(
       `Hittade ${unusedValues.length} oanvända livevärden.`
     );
@@ -230,9 +202,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
       for (const [key, value] of informativeValues) {
         this.log(`${key} = ${String(value)}`);
       }
-    } else {
-      this.log('');
-      this.log('Inga oanvända värden med innehåll hittades.');
     }
 
     if (emptyValues.length > 0) {
@@ -248,16 +217,13 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     this.log('');
   }
 
-  /**
-   * Skriver ut de statusfält vi håller på att kartlägga.
-   */
   logMappedStatuses(currentValues) {
     this.log('--------------------------------');
 
     this.log(
       `Mode: ${
         MAPPINGS.mode[currentValues.mode]
-        ?? currentValues.mode
+        ?? `Okänt (${currentValues.mode})`
       }`
     );
 
@@ -351,6 +317,14 @@ module.exports = class EcoMaxDevice extends Homey.Device {
       return;
     }
 
+    if (sensor.type === 'enum') {
+      await this.updateEnumSensor(
+        sensor,
+        rawValue
+      );
+      return;
+    }
+
     this.log(
       `Okänd sensortyp för ${sensor.title}: ${sensor.type}`
     );
@@ -420,9 +394,34 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     this.log(`${sensor.title} updated: ${value}`);
   }
 
-  /**
-   * Körs när användaren sparar enhetsinställningarna.
-   */
+  async updateEnumSensor(sensor, rawValue) {
+    const mapKey = String(rawValue);
+    const value = sensor.valueMap?.[mapKey] || 'unknown';
+
+    await this.setCapabilityValue(
+      sensor.capability,
+      value
+    );
+
+    if (value === 'unknown') {
+      this.log(
+        `${sensor.title} updated: Okänt driftläge (${rawValue})`
+      );
+      return;
+    }
+
+    const readableValue = {
+      stopped: 'Stoppad',
+      startup: 'Uppstart',
+      running: 'Drift',
+      shutdown: 'Nereldning',
+    }[value] || value;
+
+    this.log(
+      `${sensor.title} updated: ${readableValue}`
+    );
+  }
+
   async onSettings({
     oldSettings,
     newSettings,
@@ -433,11 +432,6 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     );
 
     await this.synchronizeCapabilities(newSettings);
-
-    /*
-     * Uppdatera direkt så att en nyaktiverad sensor
-     * inte behöver vänta på nästa minutintervall.
-     */
     await this.updateValues();
 
     return 'Sensorvalen har uppdaterats.';
