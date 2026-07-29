@@ -1,3 +1,3 @@
-Connect your ecoMAX heating controller to Homey through ecoNET24. Monitor boiler, flue gas, buffer tank and heating circuit temperatures, together with loading pump, hot water pump and flue gas fan status.
+Keep track of your boiler and heating system from one clear overview.
 
-Choose which measurements are shown from the device's advanced settings. Verified with a Baxi Excellent 40 Lambda, ecoNET 300 and ecoMAX 860D1-H.
+ecoMAX Controller shows temperatures, operating status, pumps and flue gas fan data from supported ecoMAX controllers connected through ecoNET24. Verified with Baxi Excellent 40 Lambda, ecoMAX 860D1-H and ecoNET 300.
