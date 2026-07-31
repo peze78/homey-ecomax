@@ -76,7 +76,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
 
     if (!username || !password || !uid) {
       await this.setUnavailable(
-        'Inloggningsuppgifter till ecoNET24 saknas.'
+        this.homey.__('errors.missing_credentials')
       );
 
       this.error('Missing ecoNET24 credentials or UID');
@@ -104,7 +104,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
       );
 
       await this.setUnavailable(
-        error?.message || 'Kunde inte ansluta till ecoNET24.'
+        error?.message || this.homey.__('errors.connection_failed')
       );
     }
   }
@@ -139,7 +139,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
       this.error('Could not update ecoMAX values:', error);
 
       await this.setUnavailable(
-        error?.message || 'Kunde inte uppdatera ecoMAX-värden.'
+        error?.message || this.homey.__('errors.update_failed')
       );
     } finally {
       this.isUpdating = false;
@@ -434,7 +434,7 @@ module.exports = class EcoMaxDevice extends Homey.Device {
     await this.synchronizeCapabilities(newSettings);
     await this.updateValues();
 
-    return 'Sensorvalen har uppdaterats.';
+    return this.homey.__('settings.updated');
   }
 
   async onAdded() {

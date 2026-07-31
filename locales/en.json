@@ -1,1 +1,19 @@
-{}
+{
+  "pair": {
+    "title": "Sign in to ecoNET24",
+    "username": "Username",
+    "password": "Password",
+    "device_uid": "Device UID",
+    "continue": "Continue",
+    "missing_fields": "Enter your username, password and Device UID.",
+    "connection_not_verified": "The ecoNET24 connection has not been verified."
+  },
+  "errors": {
+    "missing_credentials": "ecoNET24 login credentials are missing.",
+    "connection_failed": "Could not connect to ecoNET24.",
+    "update_failed": "Could not update ecoMAX values."
+  },
+  "settings": {
+    "updated": "Sensor selections have been updated."
+  }
+}

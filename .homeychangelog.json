@@ -1,12 +1,6 @@
 {
-  "1.0.4": {
-    "en": "Added an operating mode sensor. Confirmed values are Stopped, Startup and Running. Unknown mode values are shown as Unknown and written to the app log for later identification.",
-    "sv": "Lade till sensorn Driftläge. Bekräftade värden är Stoppad, Uppstart och Drift. Okända driftlägen visas som Okänt och råvärdet skrivs i apploggen för senare identifiering."
-  },
-  "1.1.0": {
-    "en": "Added an Operating Mode sensor (Stopped, Startup and Running)."
-  },
-  "1.1.1": {
-    "en": "Bytte appnamn till ecoMAX Controller"
+  "1.1.4": {
+    "en": "Added English and Swedish translations for pairing and runtime messages. Added the confirmed Burning off operating mode (mode 7).",
+    "sv": "Lade till engelska och svenska översättningar för parkoppling och runtime-meddelanden. Lade till det bekräftade driftläget Nereldning (mode 7)."
   }
 }

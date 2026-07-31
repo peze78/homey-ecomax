@@ -4,45 +4,48 @@
   <meta charset="utf-8">
   <title>ecoNET24 Login</title>
 </head>
-
 <body>
-  <h2>Logga in på ecoNET24</h2>
+  <h2 id="title"></h2>
 
-  <label for="username">Användarnamn</label><br>
+  <label id="usernameLabel" for="username"></label><br>
   <input id="username" type="text" autocomplete="username"><br><br>
 
-  <label for="password">Lösenord</label><br>
+  <label id="passwordLabel" for="password"></label><br>
   <input id="password" type="password" autocomplete="current-password"><br><br>
 
-  <label for="uid">Device UID</label><br>
+  <label id="uidLabel" for="uid"></label><br>
   <input id="uid" type="text"><br><br>
 
-  <button id="continueButton" type="button">Fortsätt</button>
+  <button id="continueButton" type="button"></button>
 
   <script>
+    document.getElementById('title').textContent = Homey.__('pair.title');
+    document.getElementById('usernameLabel').textContent = Homey.__('pair.username');
+    document.getElementById('passwordLabel').textContent = Homey.__('pair.password');
+    document.getElementById('uidLabel').textContent = Homey.__('pair.device_uid');
+    document.getElementById('continueButton').textContent = Homey.__('pair.continue');
+
     Homey.ready();
 
-    document
-      .getElementById('continueButton')
-      .addEventListener('click', async () => {
-        const credentials = {
-          username: document.getElementById('username').value.trim(),
-          password: document.getElementById('password').value,
-          uid: document.getElementById('uid').value.trim()
-        };
+    document.getElementById('continueButton').addEventListener('click', async () => {
+      const credentials = {
+        username: document.getElementById('username').value.trim(),
+        password: document.getElementById('password').value,
+        uid: document.getElementById('uid').value.trim()
+      };
 
-        if (!credentials.username || !credentials.password || !credentials.uid) {
-          Homey.alert('Fyll i användarnamn, lösenord och Device UID.');
-          return;
-        }
+      if (!credentials.username || !credentials.password || !credentials.uid) {
+        Homey.alert(Homey.__('pair.missing_fields'));
+        return;
+      }
 
-        try {
-          await Homey.emit('login', credentials);
-          Homey.nextView();
-        } catch (error) {
-          Homey.alert(error?.message || String(error));
-        }
-      });
+      try {
+        await Homey.emit('login', credentials);
+        Homey.nextView();
+      } catch (error) {
+        Homey.alert(error?.message || String(error));
+      }
+    });
   </script>
 </body>
 </html>

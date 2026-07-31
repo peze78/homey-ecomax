@@ -1,0 +1,19 @@
+{
+  "pair": {
+    "title": "Logga in på ecoNET24",
+    "username": "Användarnamn",
+    "password": "Lösenord",
+    "device_uid": "Device UID",
+    "continue": "Fortsätt",
+    "missing_fields": "Fyll i användarnamn, lösenord och Device UID.",
+    "connection_not_verified": "Anslutningen till ecoNET24 har inte verifierats."
+  },
+  "errors": {
+    "missing_credentials": "Inloggningsuppgifter till ecoNET24 saknas.",
+    "connection_failed": "Kunde inte ansluta till ecoNET24.",
+    "update_failed": "Kunde inte uppdatera ecoMAX-värden."
+  },
+  "settings": {
+    "updated": "Sensorvalen har uppdaterats."
+  }
+}

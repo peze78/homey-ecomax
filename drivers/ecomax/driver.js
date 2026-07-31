@@ -19,7 +19,7 @@ module.exports = class EcoMaxDriver extends Homey.Driver {
 
       if (!username || !password || !uid) {
         throw new Error(
-          'Fyll i användarnamn, lösenord och Device UID.'
+          this.homey.__('pair.missing_fields')
         );
       }
 
@@ -57,7 +57,7 @@ module.exports = class EcoMaxDriver extends Homey.Driver {
     session.setHandler('list_devices', async () => {
       if (!pairingDevice) {
         throw new Error(
-          'Anslutningen till ecoNET24 har inte verifierats.'
+          this.homey.__('pair.connection_not_verified')
         );
       }
 
